@@ -218,44 +218,44 @@ export function AiChat() {
   }
 
   return (
-    <div className="flex h-full flex-col gap-6 p-6 lg:p-8">
+    <div className="flex h-full flex-col gap-4 p-4 sm:gap-6 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="border-primary/30 text-primary">
+            <Badge variant="outline" className="border-primary/30 text-primary shrink-0">
               IA
             </Badge>
-            <h1 className="text-xl font-bold text-foreground">
+            <h1 className="text-lg font-bold text-foreground sm:text-xl">
               Asistente Estructural
             </h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Consulta sobre normas CIRSOC, verificaciones y diseno de fundaciones. Pide revisar calculos o generar reportes.
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+            Consulta sobre normas CIRSOC, verificaciones y diseno de fundaciones.
           </p>
         </div>
         <Button
           variant="outline"
           size="sm"
           onClick={() => setMessages([])}
-          className="gap-2 text-muted-foreground"
+          className="gap-2 text-muted-foreground shrink-0"
         >
-          <Eraser className="h-3.5 w-3.5" /> Limpiar
+          <Eraser className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Limpiar</span>
         </Button>
       </div>
 
       <Separator />
 
       {/* Messages area */}
-      <Card className="flex-1 border-border bg-card overflow-hidden">
-        <ScrollArea className="h-[calc(100vh-340px)]" ref={scrollRef}>
-          <CardContent className="flex flex-col gap-4 p-4">
+      <Card className="flex-1 border-border bg-card overflow-hidden min-h-0">
+        <ScrollArea className="h-[calc(100dvh-300px)] sm:h-[calc(100dvh-340px)]" ref={scrollRef}>
+          <CardContent className="flex flex-col gap-3 p-3 sm:gap-4 sm:p-4">
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center gap-6 py-12">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
-                  <Bot className="h-8 w-8 text-primary" />
+              <div className="flex flex-col items-center gap-4 py-6 sm:gap-6 sm:py-12">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 sm:h-16 sm:w-16">
+                  <Bot className="h-6 w-6 text-primary sm:h-8 sm:w-8" />
                 </div>
-                <div className="text-center">
+                <div className="text-center px-2">
                   <h3 className="text-sm font-semibold text-foreground">
                     Asistente de Calculo Estructural
                   </h3>
@@ -267,12 +267,12 @@ export function AiChat() {
                 </div>
 
                 {/* Suggestions */}
-                <div className="flex flex-wrap justify-center gap-2">
+                <div className="flex flex-wrap justify-center gap-2 px-2">
                   {SUGGESTED_QUESTIONS.map((q) => (
                     <button
                       key={q}
                       onClick={() => handleSuggestion(q)}
-                      className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+                      className="rounded-full border border-border px-3 py-1.5 text-[11px] text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary sm:text-xs"
                     >
                       {q}
                     </button>
@@ -290,13 +290,13 @@ export function AiChat() {
                       <Bot className="h-3.5 w-3.5 text-primary" />
                     </div>
                   )}
-                  <div className={`max-w-[85%] flex flex-col gap-2 ${message.role === "user" ? "items-end" : ""}`}>
+                  <div className={`max-w-[90%] flex flex-col gap-2 sm:max-w-[85%] ${message.role === "user" ? "items-end" : ""}`}>
                     {message.parts.map((part, index) => {
                       if (part.type === "text" && part.text.trim()) {
                         return (
                           <div
                             key={index}
-                            className={`rounded-lg px-3 py-2 text-sm whitespace-pre-wrap ${
+                            className={`rounded-lg px-3 py-2 text-xs whitespace-pre-wrap sm:text-sm ${
                               message.role === "user"
                                 ? "bg-primary text-primary-foreground"
                                 : "bg-secondary text-secondary-foreground"
@@ -342,8 +342,8 @@ export function AiChat() {
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Pregunta sobre normas CIRSOC, pedi revisar un calculo, o genera un reporte..."
-          className="min-h-10 max-h-24 flex-1 resize-none bg-card"
+          placeholder="Pregunta sobre CIRSOC..."
+          className="min-h-10 max-h-20 flex-1 resize-none bg-card text-sm sm:max-h-24"
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault()

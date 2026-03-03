@@ -109,20 +109,20 @@ export function M2Wizard() {
   }, [results])
 
   return (
-    <div className="flex flex-col gap-6 p-6 lg:p-8">
+    <div className="flex flex-col gap-4 sm:gap-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-primary border-primary/30">M2</Badge>
-            <h1 className="text-xl font-bold text-foreground">Base con Momento</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-foreground">Base con Momento</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
             Zapata aislada con carga axial y momento flector
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null) }} className="gap-2 text-muted-foreground">
-          <RotateCcw className="h-3.5 w-3.5" /> Reiniciar
+        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null) }} className="shrink-0 gap-2 text-muted-foreground">
+          <RotateCcw className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Reiniciar</span>
         </Button>
       </div>
 
@@ -142,14 +142,14 @@ export function M2Wizard() {
         </div>
 
         {/* Side panel */}
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-4">
           {(results || step > 0) && (
             <>
               <Card className="border-border bg-card">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Planta</CardTitle>
+                <CardHeader className="px-3 sm:px-6 pb-2">
+                  <CardTitle className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">Planta</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center">
+                <CardContent className="px-2 sm:px-6 flex justify-center">
                   <FootingPlanView
                     B={results?.dimensioning.B || 2.0}
                     L={results?.dimensioning.L || 2.4}
@@ -159,10 +159,10 @@ export function M2Wizard() {
                 </CardContent>
               </Card>
               <Card className="border-border bg-card">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Corte</CardTitle>
+                <CardHeader className="px-3 sm:px-6 pb-2">
+                  <CardTitle className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">Corte</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center">
+                <CardContent className="px-2 sm:px-6 flex justify-center">
                   <FootingSectionView
                     B={results?.dimensioning.B || 2.0}
                     H={results?.dimensioning.H || 0.45}
@@ -173,10 +173,10 @@ export function M2Wizard() {
               </Card>
               {results && (
                 <Card className="border-border bg-card">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Presiones</CardTitle>
+                  <CardHeader className="px-3 sm:px-6 pb-2">
+                    <CardTitle className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">Presiones</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex justify-center">
+                  <CardContent className="px-2 sm:px-6 flex justify-center">
                     <PressureDiagram
                       B={results.dimensioning.B}
                       L={results.dimensioning.L}
@@ -194,22 +194,22 @@ export function M2Wizard() {
 
       {/* Navigation */}
       <Separator />
-      <div className="flex items-center justify-between">
-        <Button variant="outline" onClick={() => setStep(Math.max(step - 1, 0))} disabled={step === 0} className="gap-2">
-          <ArrowLeft className="h-4 w-4" /> Anterior
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={() => setStep(Math.max(step - 1, 0))} disabled={step === 0} className="gap-1.5 sm:gap-2">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden xs:inline">Anterior</span>
         </Button>
-        <span className="text-xs text-muted-foreground">Paso {step + 1} de {STEPS.length}</span>
+        <span className="text-[10px] sm:text-xs text-muted-foreground">Paso {step + 1} de {STEPS.length}</span>
         {step < STEPS.length - 1 ? (
-          <Button onClick={handleNext} className="gap-2">
+          <Button size="sm" onClick={handleNext} className="gap-1.5 sm:gap-2">
             {step === 3 && !results ? (
               <><Calculator className="h-4 w-4" /> Calcular</>
             ) : (
-              <>Siguiente <ArrowRight className="h-4 w-4" /></>
+              <><span className="hidden xs:inline">Siguiente</span> <ArrowRight className="h-4 w-4" /></>
             )}
           </Button>
         ) : (
-          <Button variant="outline" className="gap-2">
-            <Download className="h-4 w-4" /> Exportar PDF
+          <Button variant="outline" size="sm" className="gap-1.5 sm:gap-2">
+            <Download className="h-4 w-4" /> <span className="hidden xs:inline">Exportar PDF</span>
           </Button>
         )}
       </div>
@@ -237,7 +237,7 @@ function M2StepInputs({
 
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Columna</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">Ancho (cm)</Label>
             <Input type="number" value={input.column?.width || 30} onChange={(e) => onUpdate({ column: { ...input.column!, width: Number(e.target.value) } })} className="mt-1 font-mono" />
@@ -254,7 +254,7 @@ function M2StepInputs({
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-semibold">Cargas por tipo (para combinaciones)</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">N servicio (kN)</Label>
             <Input type="number" value={input.loads?.N || 500} onChange={(e) => onUpdate({ loads: { ...input.loads!, N: Number(e.target.value) } })} className="mt-1 font-mono" />
@@ -292,7 +292,7 @@ function M2StepInputs({
 
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Suelo</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-3 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">σ adm (kN/m²)</Label>
             <Input type="number" value={input.soil?.sigmaAdm || 150} onChange={(e) => onUpdate({ soil: { ...input.soil!, sigmaAdm: Number(e.target.value) } })} className="mt-1 font-mono" />
@@ -310,7 +310,7 @@ function M2StepInputs({
 
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Materiales</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-3 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">Hormigon</Label>
             <Select value={input.materials?.concreteGrade || "H25"} onValueChange={(v) => onUpdate({ materials: { ...input.materials!, concreteGrade: v } })}>

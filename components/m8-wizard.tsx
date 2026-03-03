@@ -56,16 +56,16 @@ export function M8Wizard() {
   }, [results])
 
   return (
-    <div className="flex flex-col gap-6 p-6 lg:p-8">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="flex flex-col gap-4 sm:gap-6 p-4 sm:p-6 lg:p-8">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-primary border-primary/30">M8</Badge>
-            <h1 className="text-xl font-bold text-foreground">Resistencia Lateral (Broms)</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-foreground">Resistencia Lateral (Broms)</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">Capacidad lateral de pilotes - metodo de Broms</p>
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Capacidad lateral de pilotes - metodo de Broms</p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null); setInput(defaults) }} className="gap-2 text-muted-foreground"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</Button>
+        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null); setInput(defaults) }} className="shrink-0 gap-2 text-muted-foreground"><RotateCcw className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Reiniciar</span></Button>
       </div>
 
       <WizardStepper steps={STEPS} currentStep={step} onStepClick={(s) => s <= step && setStep(s)} />
@@ -81,12 +81,12 @@ export function M8Wizard() {
       </div>
 
       <Separator />
-      <div className="flex items-center justify-between">
-        <Button variant="outline" onClick={() => setStep(Math.max(step - 1, 0))} disabled={step === 0} className="gap-2"><ArrowLeft className="h-4 w-4" /> Anterior</Button>
-        <span className="text-xs text-muted-foreground">Paso {step + 1} de {STEPS.length}</span>
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={() => setStep(Math.max(step - 1, 0))} disabled={step === 0} className="gap-1.5 sm:gap-2"><ArrowLeft className="h-4 w-4" /> <span className="hidden xs:inline">Anterior</span></Button>
+        <span className="text-[10px] sm:text-xs text-muted-foreground">Paso {step + 1} de {STEPS.length}</span>
         {step < STEPS.length - 1 ? (
-          <Button onClick={handleNext} className="gap-2">{step === 1 ? <><Calculator className="h-4 w-4" /> Calcular</> : <>Siguiente <ArrowRight className="h-4 w-4" /></>}</Button>
-        ) : <Button variant="outline" className="gap-2"><Download className="h-4 w-4" /> Exportar PDF</Button>}
+          <Button size="sm" onClick={handleNext} className="gap-1.5 sm:gap-2">{step === 1 ? <><Calculator className="h-4 w-4" /> Calcular</> : <><span className="hidden xs:inline">Siguiente</span> <ArrowRight className="h-4 w-4" /></>}</Button>
+        ) : <Button variant="outline" size="sm" className="gap-1.5 sm:gap-2"><Download className="h-4 w-4" /> <span className="hidden xs:inline">Exportar PDF</span></Button>}
       </div>
     </div>
   )
@@ -98,7 +98,7 @@ function M8StepInputs({ input, onUpdate }: { input: M8Input; onUpdate: (d: Parti
       <Card className="border-border bg-card"><CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Proyecto</CardTitle></CardHeader><CardContent><Input value={input.projectName} onChange={(e) => onUpdate({ projectName: e.target.value })} placeholder="Nombre" /></CardContent></Card>
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Pilote</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div><Label className="text-xs text-muted-foreground">Diametro (cm)</Label><Input type="number" value={input.pileDiameter} onChange={(e) => onUpdate({ pileDiameter: +e.target.value })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Longitud (m)</Label><Input type="number" value={input.pileLength} onChange={(e) => onUpdate({ pileLength: +e.target.value })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Condicion cabeza</Label><Select value={input.headCondition} onValueChange={(v: "free" | "fixed") => onUpdate({ headCondition: v })}><SelectTrigger className="mt-1"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="free">Libre</SelectItem><SelectItem value="fixed">Empotrada</SelectItem></SelectContent></Select></div>
@@ -107,7 +107,7 @@ function M8StepInputs({ input, onUpdate }: { input: M8Input; onUpdate: (d: Parti
       </Card>
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Cargas Laterales</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div><Label className="text-xs text-muted-foreground">Carga lateral H (kN)</Label><Input type="number" value={input.appliedLateralLoad} onChange={(e) => onUpdate({ appliedLateralLoad: +e.target.value })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Momento en cabeza (kN.m)</Label><Input type="number" value={input.appliedMoment || 0} onChange={(e) => onUpdate({ appliedMoment: +e.target.value })} className="mt-1 font-mono" /></div>
         </CardContent>
@@ -120,7 +120,7 @@ function M8StepSoilParams({ input, onUpdate }: { input: M8Input; onUpdate: (d: P
   return (
     <Card className="border-border bg-card">
       <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Parametros del Suelo ({input.soilType === "granular" ? "Granular" : "Cohesivo"})</CardTitle></CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
+      <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
         {input.soilType === "granular" ? (
           <>
             <div><Label className="text-xs text-muted-foreground">gamma (kN/m3)</Label><Input type="number" value={input.gamma || 18} onChange={(e) => onUpdate({ gamma: +e.target.value })} className="mt-1 font-mono" /></div>

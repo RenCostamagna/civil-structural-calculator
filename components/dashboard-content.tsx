@@ -30,20 +30,20 @@ const iconMap: Record<string, React.ElementType> = {
 
 export function DashboardContent() {
   return (
-    <div className="flex flex-col gap-8 p-6 lg:p-8">
+    <div className="flex flex-col gap-6 p-4 sm:gap-8 sm:p-6 lg:p-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground text-balance">
+        <h1 className="text-xl font-bold tracking-tight text-foreground text-balance sm:text-2xl">
           Calculo Estructural de Fundaciones
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground text-pretty">
+        <p className="mt-1 text-xs text-muted-foreground text-pretty sm:text-sm">
           Seleccione un modulo de calculo para comenzar. Basado en CIRSOC 201-05 y
           CIRSOC 601/102.
         </p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
         <Card className="border-border bg-card">
           <CardContent className="flex flex-col gap-1 p-4">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -90,7 +90,7 @@ export function DashboardContent() {
       </div>
 
       {/* Quick Start */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
         <Link href="/modulos/m1" className="group">
           <Card className="border-border bg-card transition-all hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
             <CardContent className="flex items-center gap-3 p-4">
@@ -101,7 +101,7 @@ export function DashboardContent() {
                 <p className="text-sm font-semibold text-foreground">Zapata Centrada</p>
                 <p className="text-xs text-muted-foreground">Modulo mas usado</p>
               </div>
-              <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100" />
             </CardContent>
           </Card>
         </Link>
@@ -115,7 +115,7 @@ export function DashboardContent() {
                 <p className="text-sm font-semibold text-foreground">Zapata con Momento</p>
                 <p className="text-xs text-muted-foreground">Carga excentrica</p>
               </div>
-              <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100" />
             </CardContent>
           </Card>
         </Link>
@@ -131,7 +131,7 @@ export function DashboardContent() {
                 <p className="text-sm font-semibold text-foreground">Asistente IA</p>
                 <p className="text-xs text-muted-foreground">Consultas CIRSOC</p>
               </div>
-              <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100" />
             </CardContent>
           </Card>
         </Link>
@@ -187,7 +187,7 @@ export function DashboardContent() {
                     {mod.description}
                   </p>
                   {isAvailable && (
-                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-primary opacity-100 sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100">
                       Iniciar calculo
                       <ArrowRight className="h-3 w-3" />
                     </div>

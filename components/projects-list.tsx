@@ -49,12 +49,12 @@ export function ProjectsList({ initialProjects }: { initialProjects: ProjectRow[
   }
 
   return (
-    <div className="flex flex-col gap-6 p-6 lg:p-8">
+    <div className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-6 lg:p-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground text-balance">
+        <h1 className="text-xl font-bold tracking-tight text-foreground text-balance sm:text-2xl">
           Mis Proyectos
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
           Proyectos guardados de calculo estructural. Total: {projects.length}
         </p>
       </div>
@@ -73,7 +73,7 @@ export function ProjectsList({ initialProjects }: { initialProjects: ProjectRow[
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
           {projects.map((project) => (
             <Card key={project.id} className="group border-border bg-card transition-all hover:border-primary/40 hover:shadow-md">
               <CardHeader className="flex flex-row items-start justify-between pb-2">

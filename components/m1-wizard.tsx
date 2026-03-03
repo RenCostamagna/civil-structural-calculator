@@ -94,20 +94,20 @@ export function M1Wizard() {
   }, [results])
 
   return (
-    <div className="flex flex-col gap-6 p-6 lg:p-8">
+    <div className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-primary border-primary/30">M1</Badge>
-            <h1 className="text-xl font-bold text-foreground">Base Centrada</h1>
+            <Badge variant="outline" className="text-primary border-primary/30 shrink-0">M1</Badge>
+            <h1 className="text-lg font-bold text-foreground sm:text-xl">Base Centrada</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
             Zapata aislada centrada bajo columna con carga axial pura
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null) }} className="gap-2 text-muted-foreground">
-          <RotateCcw className="h-3.5 w-3.5" /> Reiniciar
+        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null) }} className="gap-2 text-muted-foreground shrink-0">
+          <RotateCcw className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Reiniciar</span>
         </Button>
       </div>
 
@@ -137,14 +137,14 @@ export function M1Wizard() {
         </div>
 
         {/* Side panel - Diagrams */}
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-4">
           {(results || step > 0) && (
             <>
               <Card className="border-border bg-card">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Vista en planta</CardTitle>
+                <CardHeader className="pb-2 px-3 sm:px-6">
+                  <CardTitle className="text-[10px] uppercase tracking-wider text-muted-foreground sm:text-xs">Vista en planta</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center">
+                <CardContent className="flex justify-center px-2 sm:px-6">
                   <FootingPlanView
                     B={results?.dimensioning.B || 1.5}
                     L={results?.dimensioning.L || 1.5}
@@ -154,10 +154,10 @@ export function M1Wizard() {
                 </CardContent>
               </Card>
               <Card className="border-border bg-card">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Corte transversal</CardTitle>
+                <CardHeader className="pb-2 px-3 sm:px-6">
+                  <CardTitle className="text-[10px] uppercase tracking-wider text-muted-foreground sm:text-xs">Corte transversal</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center">
+                <CardContent className="flex justify-center px-2 sm:px-6">
                   <FootingSectionView
                     B={results?.dimensioning.B || 1.5}
                     H={results?.dimensioning.H || 0.4}
@@ -173,33 +173,34 @@ export function M1Wizard() {
 
       {/* Navigation */}
       <Separator />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <Button
           variant="outline"
+          size="sm"
           onClick={() => setStep(Math.max(step - 1, 0))}
           disabled={step === 0}
-          className="gap-2"
+          className="gap-1.5 sm:gap-2"
         >
-          <ArrowLeft className="h-4 w-4" /> Anterior
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden xs:inline">Anterior</span>
         </Button>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-[10px] text-muted-foreground sm:text-xs">
           Paso {step + 1} de {STEPS.length}
         </span>
         {step < STEPS.length - 1 ? (
-          <Button onClick={handleNext} className="gap-2">
+          <Button size="sm" onClick={handleNext} className="gap-1.5 sm:gap-2">
             {step === 1 && !results ? (
               <>
                 <Calculator className="h-4 w-4" /> Calcular
               </>
             ) : (
               <>
-                Siguiente <ArrowRight className="h-4 w-4" />
+                <span className="hidden xs:inline">Siguiente</span> <ArrowRight className="h-4 w-4" />
               </>
             )}
           </Button>
         ) : (
-          <Button variant="outline" className="gap-2">
-            <Download className="h-4 w-4" /> Exportar PDF
+          <Button variant="outline" size="sm" className="gap-1.5 sm:gap-2">
+            <Download className="h-4 w-4" /> <span className="hidden xs:inline">Exportar PDF</span>
           </Button>
         )}
       </div>
@@ -216,7 +217,7 @@ function StepInputs({
   onUpdate: (data: Partial<M1Input>) => void
 }) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6">
       {/* Project Name */}
       <Card className="border-border bg-card">
         <CardHeader className="pb-3">
@@ -315,8 +316,8 @@ function StepInputs({
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-semibold">Suelo</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
-          <div className="col-span-2">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+          <div className="sm:col-span-2">
             <Label className="text-xs text-muted-foreground">Tipo de suelo</Label>
             <Select
               value="personalizado"
@@ -380,7 +381,7 @@ function StepInputs({
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-semibold">Materiales</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">Hormigon</Label>
             <Select
@@ -463,7 +464,7 @@ function StepDimensioning({
           Se calculara automaticamente la zapata optima. Puede ingresar dimensiones
           fijas o dejar que el motor las determine.
         </p>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">B ancho (m) - opcional</Label>
             <Input

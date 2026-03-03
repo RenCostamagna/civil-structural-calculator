@@ -64,17 +64,17 @@ export function M3Wizard() {
   }, [results])
 
   return (
-    <div className="flex flex-col gap-6 p-6 lg:p-8">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="flex flex-col gap-4 sm:gap-6 p-4 sm:p-6 lg:p-8">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-primary border-primary/30">M3</Badge>
-            <h1 className="text-xl font-bold text-foreground">Base con Viga Central</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-foreground">Base con Viga Central</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">Zapata con viga rigida en voladizo</p>
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Zapata con viga rigida en voladizo</p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null); setInput(defaults) }} className="gap-2 text-muted-foreground">
-          <RotateCcw className="h-3.5 w-3.5" /> Reiniciar
+        <Button variant="outline" size="sm" onClick={() => { setStep(0); setResults(null); setInput(defaults) }} className="shrink-0 gap-2 text-muted-foreground">
+          <RotateCcw className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Reiniciar</span>
         </Button>
       </div>
 
@@ -90,18 +90,18 @@ export function M3Wizard() {
           {step === 4 && results && <M3StepReinforcement results={results} />}
           {step === 5 && results && <M3StepSummary results={results} verifications={verifications} />}
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-4">
           {(results || step > 0) && (
             <>
               <Card className="border-border bg-card">
-                <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Planta</CardTitle></CardHeader>
-                <CardContent className="flex justify-center">
+                <CardHeader className="px-3 sm:px-6 pb-2"><CardTitle className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">Planta</CardTitle></CardHeader>
+                <CardContent className="px-2 sm:px-6 flex justify-center">
                   <FootingPlanView B={results?.dimensioning.B || 1.5} L={results?.dimensioning.L || 1.5} colX={input.column.width} colY={input.column.depth} />
                 </CardContent>
               </Card>
               <Card className="border-border bg-card">
-                <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wider text-muted-foreground">Corte</CardTitle></CardHeader>
-                <CardContent className="flex justify-center">
+                <CardHeader className="px-3 sm:px-6 pb-2"><CardTitle className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">Corte</CardTitle></CardHeader>
+                <CardContent className="px-2 sm:px-6 flex justify-center">
                   <FootingSectionView B={results?.dimensioning.B || 1.5} H={results?.dimensioning.H || 0.4} colX={input.column.width} d={results?.dimensioning.d} />
                 </CardContent>
               </Card>
@@ -111,17 +111,17 @@ export function M3Wizard() {
       </div>
 
       <Separator />
-      <div className="flex items-center justify-between">
-        <Button variant="outline" onClick={() => setStep(Math.max(step - 1, 0))} disabled={step === 0} className="gap-2">
-          <ArrowLeft className="h-4 w-4" /> Anterior
+      <div className="flex items-center justify-between gap-2">
+        <Button variant="outline" size="sm" onClick={() => setStep(Math.max(step - 1, 0))} disabled={step === 0} className="gap-1.5 sm:gap-2">
+          <ArrowLeft className="h-4 w-4" /> <span className="hidden xs:inline">Anterior</span>
         </Button>
-        <span className="text-xs text-muted-foreground">Paso {step + 1} de {STEPS.length}</span>
+        <span className="text-[10px] sm:text-xs text-muted-foreground">Paso {step + 1} de {STEPS.length}</span>
         {step < STEPS.length - 1 ? (
-          <Button onClick={handleNext} className="gap-2">
-            {step === 1 && !results ? <><Calculator className="h-4 w-4" /> Calcular</> : <>Siguiente <ArrowRight className="h-4 w-4" /></>}
+          <Button size="sm" onClick={handleNext} className="gap-1.5 sm:gap-2">
+            {step === 1 && !results ? <><Calculator className="h-4 w-4" /> Calcular</> : <><span className="hidden xs:inline">Siguiente</span> <ArrowRight className="h-4 w-4" /></>}
           </Button>
         ) : (
-          <Button variant="outline" className="gap-2"><Download className="h-4 w-4" /> Exportar PDF</Button>
+          <Button variant="outline" size="sm" className="gap-1.5 sm:gap-2"><Download className="h-4 w-4" /> <span className="hidden xs:inline">Exportar PDF</span></Button>
         )}
       </div>
     </div>
@@ -140,7 +140,7 @@ function M3StepInputs({ input, onUpdate }: { input: M3Input; onUpdate: (d: Parti
       </Card>
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Columna y Cargas</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div><Label className="text-xs text-muted-foreground">Ancho col. (cm)</Label><Input type="number" value={input.column.width} onChange={(e) => onUpdate({ column: { ...input.column, width: +e.target.value } })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Prof. col. (cm)</Label><Input type="number" value={input.column.depth} onChange={(e) => onUpdate({ column: { ...input.column, depth: +e.target.value } })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">N servicio (kN)</Label><Input type="number" value={input.loads.N} onChange={(e) => onUpdate({ loads: { ...input.loads, N: +e.target.value } })} className="mt-1 font-mono" /></div>
@@ -148,7 +148,7 @@ function M3StepInputs({ input, onUpdate }: { input: M3Input; onUpdate: (d: Parti
       </Card>
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Viga Central</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-3 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
           <div><Label className="text-xs text-muted-foreground">Ancho viga (cm)</Label><Input type="number" value={input.beamWidth} onChange={(e) => onUpdate({ beamWidth: +e.target.value })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Alto viga (cm)</Label><Input type="number" value={input.beamHeight} onChange={(e) => onUpdate({ beamHeight: +e.target.value })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Voladizo (m)</Label><Input type="number" step="0.1" value={input.cantileverLength} onChange={(e) => onUpdate({ cantileverLength: +e.target.value })} className="mt-1 font-mono" /></div>
@@ -156,7 +156,7 @@ function M3StepInputs({ input, onUpdate }: { input: M3Input; onUpdate: (d: Parti
       </Card>
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Suelo</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-3 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
           <div><Label className="text-xs text-muted-foreground">sigma adm (kN/m2)</Label><Input type="number" value={input.soil.sigmaAdm} onChange={(e) => onUpdate({ soil: { ...input.soil, sigmaAdm: +e.target.value } })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">gamma suelo (kN/m3)</Label><Input type="number" value={input.soil.gamma_s} onChange={(e) => onUpdate({ soil: { ...input.soil, gamma_s: +e.target.value } })} className="mt-1 font-mono" /></div>
           <div><Label className="text-xs text-muted-foreground">Df (m)</Label><Input type="number" step="0.1" value={input.soil.Df} onChange={(e) => onUpdate({ soil: { ...input.soil, Df: +e.target.value } })} className="mt-1 font-mono" /></div>
@@ -164,7 +164,7 @@ function M3StepInputs({ input, onUpdate }: { input: M3Input; onUpdate: (d: Parti
       </Card>
       <Card className="border-border bg-card">
         <CardHeader className="pb-3"><CardTitle className="text-sm font-semibold">Materiales</CardTitle></CardHeader>
-        <CardContent className="grid grid-cols-3 gap-4">
+        <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
           <div>
             <Label className="text-xs text-muted-foreground">Hormigon</Label>
             <Select value={input.materials.concreteGrade} onValueChange={(v) => onUpdate({ materials: { ...input.materials, concreteGrade: v } })}><SelectTrigger className="mt-1"><SelectValue /></SelectTrigger><SelectContent>{Object.entries(CONCRETE_GRADES).map(([k, g]) => <SelectItem key={k} value={k}>{g.label}</SelectItem>)}</SelectContent></Select>
