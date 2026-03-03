@@ -1,1 +1,0 @@
-# civil-structural-calculator
